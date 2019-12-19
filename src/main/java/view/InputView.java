@@ -23,4 +23,9 @@ public class InputView {
         System.out.println("## 예약할 시간표를 선택하세요.");
         return inputNumber();
     }
+
+    public static int inputPersonnel(){
+        System.out.println("## 예약할 인원을 입력하세요.");
+        return inputNumber();
+    }
 }
