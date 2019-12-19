@@ -32,6 +32,12 @@ public class Movie {
                 + sb.toString();
     }
 
+    public String toString(int scheduleId){
+        StringBuilder sb = new StringBuilder();
+        return id + " - " + name + ", " + price + "원" + NEW_LINE
+                + playSchedules.get(scheduleId).toStringWithOutCapacity();
+    }
+
     public int getId(){
         return this.id;
     }

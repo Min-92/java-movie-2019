@@ -4,6 +4,7 @@ import domain.Movie;
 import domain.MovieRepository;
 import domain.PlaySchedule;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import utils.DateTimeUtils;
@@ -12,11 +13,14 @@ import view.OutputView;
 
 public class Booking {
 
-  private List<Movie> movies;
-  private HashMap<Integer, Integer> idMap = new HashMap<>();
-
   private final int ZERO = 0;
   private final int ONE = 1;
+  private final int TWO = 2;
+
+  private final List<Movie> movies;
+  private HashMap<Integer, Integer> idMap = new HashMap<>();
+  private ArrayList<BookingResult> bookingResults = new ArrayList<>();
+
 
   public Booking() {
     movies = MovieRepository.getMovies();
@@ -24,10 +28,9 @@ public class Booking {
     for (int i = 0; i < movies.size(); i++) {
       idMap.put(movies.get(i).getId(), i);
     }
-
   }
 
-  public void start() {
+  public boolean start() {
     showMovieList();
     int movieId = getBookingMovieId();
 
@@ -35,6 +38,45 @@ public class Booking {
     int scheduleId = getBookingScheduleId(movieId);
 
     int personnel = getPersonnel(movieId, scheduleId);
+
+    addBookingResult(movieId, scheduleId, personnel);
+
+    return endBooking();
+  }
+
+  private boolean validateNextProcess(int nextProcess) throws Exception {
+    if (nextProcess != ONE && nextProcess != TWO) {
+      throw new Exception("1과 2만 입력해주세요.");
+    }
+
+    return nextProcess == TWO;
+  }
+
+  public void finish(){
+    System.out.println("## 예약 내역");
+    for(int i = 0; i < bookingResults.size(); i++){
+      OutputView.printBookingResult(bookingResults.get(i));
+    }
+  }
+
+  private boolean endBooking() {
+    try {
+      int nextProcess = InputView.inputNextProcess();
+      return validateNextProcess(nextProcess);
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return endBooking();
+    }
+  }
+
+
+  private void addBookingResult(int movieId, int scheduleId, int personnel) {
+    bookingResults.add(new BookingResult(movieId, scheduleId, personnel, getMovie(movieId)));
+  }
+
+  private Movie getMovie(int movieId) {
+    return movies.get(idMap.get(movieId));
   }
 
   private int getPersonnel(int movieId, int scheduleId) {
@@ -58,7 +100,7 @@ public class Booking {
   }
 
   private void showMovieSchedule(int movieId) {
-    OutputView.printSchedule(movies.get(idMap.get(movieId)));
+    OutputView.printSchedule(getMovie(movieId));
   }
 
   private void validateMovieId(int inputId) throws Exception {
@@ -86,7 +128,7 @@ public class Booking {
   }
 
   private List<PlaySchedule> getSchedules(int movieId) {
-    return movies.get(idMap.get(movieId)).getPlaySchedules();
+    return getMovie(movieId).getPlaySchedules();
   }
 
   private PlaySchedule getSchedule(List<PlaySchedule> schedules, int scheduleId) {
