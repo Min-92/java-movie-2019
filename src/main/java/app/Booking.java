@@ -20,6 +20,7 @@ public class Booking {
   private final List<Movie> movies;
   private HashMap<Integer, Integer> idMap = new HashMap<>();
   private ArrayList<BookingResult> bookingResults = new ArrayList<>();
+  private LocalDateTime firstTime = DateTimeUtils.createDateTime("2019-01-01 00:00");
 
 
   public Booking() {
@@ -144,6 +145,23 @@ public class Booking {
 
     hasNoCapacity(schedule.getCapacity());
     isStarted(schedule.getStartDateTime());
+    isInOneHour(schedule.getStartDateTime());
+
+    addFirstTime(schedule.getStartDateTime());
+  }
+
+  private void isInOneHour(LocalDateTime startTime) throws Exception {
+    if(firstTime.equals( DateTimeUtils.createDateTime("2019-01-01 00:00"))){
+      return;
+    }
+
+    if(!DateTimeUtils.isOneHourWithinRange(firstTime,startTime)){
+      throw new Exception("다른 예매 내역과 한시간 이상 차이납니다.");
+    }
+  }
+
+  private void addFirstTime(LocalDateTime startTime){
+    firstTime = startTime;
   }
 
   private int getBookingScheduleId(int movieId) {
