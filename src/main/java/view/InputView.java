@@ -38,4 +38,9 @@ public class InputView {
         System.out.println("## 포인트 사용금액을 입력하세요. 포인트가 없으면 0 입력");
         return inputNumber();
     }
+
+    public static int inputPaymentMethod(){
+        System.out.println("## 결제수단을 정해주세요\n## 카드는 1번, 현금은 2번");
+        return inputNumber();
+    }
 }
