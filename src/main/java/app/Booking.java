@@ -52,11 +52,12 @@ public class Booking {
     return nextProcess == TWO;
   }
 
-  public void finish(){
+  public ArrayList<BookingResult> finish(){
     System.out.println("## 예약 내역");
     for(int i = 0; i < bookingResults.size(); i++){
       OutputView.printBookingResult(bookingResults.get(i));
     }
+    return bookingResults;
   }
 
   private boolean endBooking() {
