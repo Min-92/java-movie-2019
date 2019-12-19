@@ -1,14 +1,11 @@
-import domain.Movie;
-import domain.MovieRepository;
+import app.Booking;
 import view.InputView;
-import view.OutputView;
-
-import java.util.List;
 
 public class MovieApplication {
     public static void main(String[] args) {
-        List<Movie> movies = MovieRepository.getMovies();
-        OutputView.printMovies(movies);
+        Booking booking = new Booking();
+
+        booking.start();
 
         int movieId = InputView.inputMovieId();
 
