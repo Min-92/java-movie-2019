@@ -18,4 +18,9 @@ public class InputView {
             return inputNumber();
         }
     }
+
+    public static int inputScheduleId(){
+        System.out.println("## 예약할 시간표를 선택하세요.");
+        return inputNumber();
+    }
 }
