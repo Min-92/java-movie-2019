@@ -2,6 +2,7 @@ package app;
 
 import java.util.ArrayList;
 import view.InputView;
+import view.OutputView;
 
 public class Payment {
 
@@ -22,7 +23,28 @@ public class Payment {
 
     String method = getPaymentMethod();
 
-    
+    finishResult(point, method);
+  }
+
+  private int validatePrice(int price){
+    if(price < 0){
+      return 0;
+    }
+    return price;
+  }
+
+  private int calculatePrice(int point) {
+    int price = 0;
+    for (BookingResult bookingResult : bookingResults) {
+      price += bookingResult.getPrice();
+    }
+    price -= point;
+    return validatePrice(price);
+  }
+
+  private void finishResult(int point, String method) {
+    int price = calculatePrice(point);
+    OutputView.printPaymentResult(price, method);
   }
 
   private String validatePaymentMethod(int methodNumber) throws Exception {

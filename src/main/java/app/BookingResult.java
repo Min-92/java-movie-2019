@@ -3,6 +3,7 @@ package app;
 import domain.Movie;
 
 public class BookingResult {
+
   private static final char NEW_LINE = '\n';
   private final int ONE = 1;
 
@@ -21,5 +22,9 @@ public class BookingResult {
 
   public String toString() {
     return movie.toString(scheduleId - ONE) + "예약 인원 : " + personnel + NEW_LINE;
+  }
+
+  public int getPrice() {
+    return movie.getPrice();
   }
 }
