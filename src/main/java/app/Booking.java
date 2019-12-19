@@ -10,14 +10,15 @@ import view.OutputView;
 public class Booking {
 
   private List<Movie> movies;
-  private HashMap<Integer, Boolean> idMap = new HashMap<>();
+  private HashMap<Integer, Integer> idMap = new HashMap<>();
 
   public Booking() {
     movies = MovieRepository.getMovies();
 
-    for (Movie movie : movies) {
-      idMap.put(movie.getId(), true);
+    for (int i = 0; i < movies.size(); i++) {
+      idMap.put(i, movies.get(i).getId());
     }
+
   }
 
   public void start() {
@@ -28,7 +29,7 @@ public class Booking {
 
   private void validateMovieId(int inputId) throws Exception {
 
-    if (!idMap.containsKey(inputId)) {
+    if (!idMap.containsValue(inputId)) {
       throw new Exception("영화 ID가 존재하지 않습니다.");
     }
 
